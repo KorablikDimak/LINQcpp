@@ -10,4 +10,6 @@ int main()
     std::cout << "quick sort: " << quickSortTest() << std::endl;
     std::cout << "count equal keys: " << countEqualKeysTest() << std::endl;
     std::cout << "count common subsequence: " << countCommonSubsequenceTest() << std::endl;
+    std::cout << "contains: " << containsTest() << std::endl;
+    std::cout << "index at: " << indexAtTest() << std::endl;
 }

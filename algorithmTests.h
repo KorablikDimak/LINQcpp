@@ -12,5 +12,7 @@ bool mergeSortTest();
 bool quickSortTest();
 bool countEqualKeysTest();
 bool countCommonSubsequenceTest();
+bool containsTest();
+bool indexAtTest();
 
 #endif
