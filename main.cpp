@@ -1,7 +1,14 @@
 #include <iostream>
 #include "algorithmTests.h"
 
+void testAll();
+
 int main()
+{
+    testAll();
+}
+
+void testAll()
 {
     std::cout << "binary search: " << binarySearchTest() << std::endl;
     std::cout << "selection sort: " << selectionSortTest() << std::endl;

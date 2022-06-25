@@ -18,7 +18,7 @@ bool selectionSortTest()
     short arr1[10] = { 7,4,2,10,2,50,5,21,40,25 };
     short arrCorrect1[10] = { 2, 2, 4, 5, 7, 10, 21, 25, 40, 50 };
     selectionSort(arr1, 0, 9);
-    for (short i = 0; i < 10; i++)
+    for (short i = 0; i < 10; ++i)
     {
         if (arr1[i] != arrCorrect1[i])
         {
@@ -29,7 +29,7 @@ bool selectionSortTest()
     std::vector<short> arr2 = { 6, 3, 18, 9, 11, 23, 10, 33 };
     std::vector<short> arrCorrect2 = { 3, 6, 9, 10, 11, 18, 23, 33 };
     selectionSort(arr2.data(), 0, 7);
-    for (short i = 0; i < 8; i++)
+    for (short i = 0; i < 8; ++i)
     {
         if (arr2[i] != arrCorrect2[i])
         {
@@ -45,7 +45,7 @@ bool insertionSortTest()
     short arr1[10] = { 7,4,2,10,2,50,5,21,40,25 };
     short arrCorrect1[10] = { 2, 2, 4, 5, 7, 10, 21, 25, 40, 50 };
     insertionSort(arr1, 0, 9);
-    for (short i = 0; i < 10; i++)
+    for (short i = 0; i < 10; ++i)
     {
         if (arr1[i] != arrCorrect1[i])
         {
@@ -56,7 +56,7 @@ bool insertionSortTest()
     std::vector<short> arr2 = { 6, 3, 18, 9, 11, 23, 10, 33 };
     std::vector<short> arrCorrect2 = { 3, 6, 9, 10, 11, 18, 23, 33 };
     insertionSort(arr2.data(), 0, 7);
-    for (short i = 0; i < 8; i++)
+    for (short i = 0; i < 8; ++i)
     {
         if (arr2[i] != arrCorrect2[i])
         {
@@ -72,7 +72,7 @@ bool mergeSortTest()
     short arr1[10] = { 7,3,6,10,2,50,5,21,40,25 };
     short arrCorrect1[10] = { 2, 3, 5, 6, 7, 10, 21, 25, 40, 50 };
     mergeSort(arr1, 0, 9);
-    for (short i = 0; i < 10; i++)
+    for (short i = 0; i < 10; ++i)
     {
         if (arr1[i] != arrCorrect1[i])
         {
@@ -83,7 +83,7 @@ bool mergeSortTest()
     std::vector<short> arr2 = { 6, 3, 18, 9, 12, 23, 10, 33 };
     std::vector<short> arrCorrect2 = { 3, 6, 9, 10, 12, 18, 23, 33 };
     mergeSort(arr2.data(), 0, 7);
-    for (short i = 0; i < 8; i++)
+    for (short i = 0; i < 8; ++i)
     {
         if (arr2[i] != arrCorrect2[i])
         {
@@ -99,7 +99,7 @@ bool quickSortTest()
     short arr1[10] = { 7,3,6,10,2,50,5,21,40,25 };
     short arrCorrect1[10] = { 2, 3, 5, 6, 7, 10, 21, 25, 40, 50 };
     quickSort(arr1, 0, 9);
-    for (short i = 0; i < 10; i++)
+    for (short i = 0; i < 10; ++i)
     {
         if (arr1[i] != arrCorrect1[i])
         {
@@ -110,7 +110,7 @@ bool quickSortTest()
     std::vector<short> arr2 = { 6, 3, 18, 9, 12, 23, 10, 33 };
     std::vector<short> arrCorrect2 = { 3, 6, 9, 10, 12, 18, 23, 33 };
     quickSort(arr2.data(), 0, 7);
-    for (short i = 0; i < 8; i++)
+    for (short i = 0; i < 8; ++i)
     {
         if (arr2[i] != arrCorrect2[i])
         {
