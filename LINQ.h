@@ -1,5 +1,4 @@
-#ifndef LINQCPP_LINQ_H
-#define LINQCPP_LINQ_H
+#pragma once
 
 #include <deque>
 #include <list>
@@ -386,5 +385,3 @@ LinqObject<T> from(std::array<T, SIZE> collection)
     LinqObject linqObject(vector);
     return linqObject;
 }
-
-#endif

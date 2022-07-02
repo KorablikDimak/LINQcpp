@@ -1,5 +1,4 @@
-#ifndef LINQCPP_ALGORITHM_H
-#define LINQCPP_ALGORITHM_H
+#pragma once
 
 #include <vector>
 #include <map>
@@ -377,5 +376,3 @@ namespace algorithm
         throw std::domain_error("not found sub collection");
     }
 }
-
-#endif

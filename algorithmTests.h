@@ -1,5 +1,4 @@
-#ifndef LINQCPP_ALGORITHMTESTS_H
-#define LINQCPP_ALGORITHMTESTS_H
+#pragma once
 
 #include "algorithm.h"
 
@@ -14,5 +13,3 @@ bool countEqualKeysTest();
 bool countCommonSubsequenceTest();
 bool containsTest();
 bool indexAtTest();
-
-#endif
