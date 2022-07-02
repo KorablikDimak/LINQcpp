@@ -12,7 +12,8 @@ int main()
 
     auto a = from(vect1)
             .join<int, int, int>(vect2, [](int v1){ return v1; }, [](int v2){ return v2; }, [](int v1, int v2){ return v1; })
-            .contains(subVect);
+            .orderBy<int>([](int var){ return -var; }, DESC)
+            .select([](int var){ return var * 2; });
     testAll();
 }
 

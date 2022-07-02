@@ -1,7 +1,6 @@
 #ifndef LINQCPP_LINQ_H
 #define LINQCPP_LINQ_H
 
-#include <functional>
 #include "algorithm.h"
 
 enum OrderType
@@ -21,6 +20,17 @@ public:
 
     std::vector<T> select()
     {
+        return collection;
+    }
+
+    std::vector<T> select(std::function<T(T)> selector)
+    {
+        auto current = collection.begin();
+        do
+        {
+            *current = selector(*current);
+            current++;
+        } while (current != collection.end());
         return collection;
     }
 
@@ -44,6 +54,14 @@ public:
     LinqObject orderBy(OrderType orderType = ASC)
     {
         algorithm::mergeSort(&collection, 0, collection.size() - 1, orderType);
+        LinqObject linqObject(collection);
+        return linqObject;
+    }
+
+    template<typename TKey>
+    LinqObject orderBy(std::function<TKey(T)> orderFunction, OrderType orderType = ASC)
+    {
+        algorithm::mergeSort(&collection, 0, collection.size() - 1, orderFunction, orderType);
         LinqObject linqObject(collection);
         return linqObject;
     }

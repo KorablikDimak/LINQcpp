@@ -4,6 +4,7 @@
 #include <vector>
 #include <map>
 #include <stdexcept>
+#include <functional>
 
 namespace algorithm
 {
@@ -120,6 +121,76 @@ namespace algorithm
                     ++i;
                 }
                 else if ((i == n1 || arr1[i] <= arr2[j]) && j != n2)
+                {
+                    (*collection)[k] = arr2[j];
+                    ++j;
+                }
+            }
+        }
+    }
+
+    template <typename T, typename TKey>
+    void merge(std::vector<T> *collection, std::size_t start, std::size_t mid, std::size_t end,
+               std::function<TKey(T)> sortFunction, bool ASC);
+
+    template <typename T, typename TKey>
+    void mergeSort(std::vector<T> *collection, const std::size_t start, const std::size_t end,
+                   std::function<TKey(T)> sortFunction, bool ASC = true)
+    {
+        if (start >= end) return;
+        std::size_t mid = (start + end) / 2;
+        mergeSort(collection, start, mid, sortFunction, ASC);
+        mergeSort(collection, mid + 1, end, sortFunction, ASC);
+
+        merge(collection, start, mid, end, sortFunction, ASC);
+    }
+
+    template <typename T, typename TKey>
+    void merge(std::vector<T> *collection, const std::size_t start, const std::size_t mid, const std::size_t end,
+               std::function<TKey(T)> sortFunction, bool ASC)
+    {
+        const std::size_t n1 = mid - start + 1;
+        const std::size_t n2 = end - mid;
+
+        T arr1[n1], arr2[n2];
+
+        for (std::size_t i = start, j = 0; i < mid + 1; ++i, ++j)
+        {
+            arr1[j] = (*collection)[i];
+        }
+        for (std::size_t i = mid + 1, j = 0; i <= end; ++i, ++j)
+        {
+            arr2[j] = (*collection)[i];
+        }
+
+        std::size_t i = 0, j = 0;
+
+        if (ASC)
+        {
+            for (std::size_t k = start; k <= end; ++k)
+            {
+                if ((j == n2 || sortFunction(arr1[i]) <= sortFunction(arr2[j])) && i != n1)
+                {
+                    (*collection)[k] = arr1[i];
+                    ++i;
+                }
+                else if ((i == n1 || sortFunction(arr1[i]) > sortFunction(arr2[j])) && j != n2)
+                {
+                    (*collection)[k] = arr2[j];
+                    ++j;
+                }
+            }
+        }
+        else
+        {
+            for (std::size_t k = start; k <= end; ++k)
+            {
+                if ((j == n2 || sortFunction(arr1[i]) > sortFunction(arr2[j])) && i != n1)
+                {
+                    (*collection)[k] = arr1[i];
+                    ++i;
+                }
+                else if ((i == n1 || sortFunction(arr1[i]) <= sortFunction(arr2[j])) && j != n2)
                 {
                     (*collection)[k] = arr2[j];
                     ++j;
