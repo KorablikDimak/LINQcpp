@@ -8,12 +8,14 @@ int main()
 {
     std::vector<int> vect1 = { 1, 4, 5, 9, 2 };
     std::vector<int> vect2 = { 4, 4, 5, 6, 2 };
+    std::vector<int> vect3 = { 4 };
     std::vector<int> subVect = { 4, 4 };
 
     auto a = from(vect1)
             .join<int, int, int>(vect2, [](int v1){ return v1; }, [](int v2){ return v2; }, [](int v1, int v2){ return v1; })
             .orderBy<int>([](int var){ return -var; }, DESC)
-            .select([](int var){ return var * 2; });
+            .select<int>([](int var){ return var * 2; })
+            .max<int>([](int var){ return var; });
     testAll();
 }
 

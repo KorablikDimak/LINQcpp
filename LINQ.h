@@ -18,20 +18,26 @@ public:
         this->collection = collection;
     }
 
-    std::vector<T> select()
+    std::vector<T> toVector()
     {
         return collection;
     }
 
-    std::vector<T> select(std::function<T(T)> selector)
+    // selected methods
+
+    template<typename TKey>
+    LinqObject select(std::function<TKey(T)> selector)
     {
+        std::vector<TKey> newCollection;
         auto current = collection.begin();
         do
         {
-            *current = selector(*current);
+            newCollection.push_back(selector(*current));
             current++;
         } while (current != collection.end());
-        return collection;
+
+        LinqObject linqObject(newCollection);
+        return linqObject;
     }
 
     LinqObject where(std::function<bool(T)> predicate)
@@ -66,17 +72,6 @@ public:
         return linqObject;
     }
 
-    T sum()
-    {
-        if (collection.empty()) throw std::domain_error("collection is empty");
-        T sum = collection[0];
-        for (int i = 1; i < collection.size(); ++i)
-        {
-            sum += collection[i];
-        }
-        return sum;
-    }
-
     template<typename TOther, typename TKey, typename TResult>
     LinqObject join(std::vector<TOther> other,
                     std::function<TKey(T)> innerKeySelector,
@@ -104,6 +99,8 @@ public:
         LinqObject linqObject(result);
         return linqObject;
     }
+
+    // bool methods
 
     bool all(std::function<bool(T)> predicate)
     {
@@ -153,6 +150,121 @@ public:
         } while (current != collection.end());
 
         return false;
+    }
+
+    // aggregate methods
+
+    T sum()
+    {
+        T sum;
+        auto current = collection.begin();
+        do
+        {
+            sum += *current;
+            current++;
+        } while (current != collection.end());
+        return sum;
+    }
+
+    template<typename TResult>
+    TResult sum(std::function<TResult(T)> sumFunction)
+    {
+        TResult sum;
+        auto current = collection.begin();
+        do
+        {
+            sum += sumFunction(*current);
+            current++;
+        } while (current != collection.end());
+        return sum;
+    }
+
+    template<typename TResult>
+    TResult aggregate(std::function<TResult(TResult, T)> aggregateFunction)
+    {
+        TResult result;
+        auto current = collection.begin();
+        do
+        {
+            result = aggregateFunction(result, *current);
+            current++;
+        } while (current != collection.end());
+
+        return result;
+    }
+
+    T min()
+    {
+        auto current = collection.begin();
+        T min = *current;
+        current++;
+        if (current == collection.end()) return min;
+        do
+        {
+            if (*current < min)
+            {
+                min = *current;
+            }
+            current++;
+        } while (current != collection.end());
+
+        return min;
+    }
+
+    template<typename TResult>
+    TResult min(std::function<TResult(T)> minFunction)
+    {
+        auto current = collection.begin();
+        TResult min = minFunction(*current);
+        current++;
+        if (current == collection.end()) return min;
+        do
+        {
+            if (minFunction(*current) < min)
+            {
+                min = *current;
+            }
+            current++;
+        } while (current != collection.end());
+
+        return min;
+    }
+
+    T max()
+    {
+        auto current = collection.begin();
+        T max = *current;
+        current++;
+        if (current == collection.end()) return max;
+        do
+        {
+            if (*current > max)
+            {
+                max = *current;
+            }
+            current++;
+        } while (current != collection.end());
+
+        return max;
+    }
+
+    template<typename TResult>
+    TResult max(std::function<TResult(T)> maxFunction)
+    {
+        auto current = collection.begin();
+        TResult max = maxFunction(*current);
+        current++;
+        if (current == collection.end()) return max;
+        do
+        {
+            if (maxFunction(*current) > max)
+            {
+                max = *current;
+            }
+            current++;
+        } while (current != collection.end());
+
+        return min;
     }
 
 private:
