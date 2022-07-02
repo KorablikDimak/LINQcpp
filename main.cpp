@@ -8,7 +8,7 @@ int main()
 {
     std::vector<int> vect1 = { 1, 4, 5, 9, 2 };
     std::vector<int> vect2 = { 4, 4, 5, 6, 2 };
-    std::deque<int> deque = { 4, 7, 6 };
+    std::array<int, 3> deque = { 4, 7, 6 };
     std::vector<int> subVect = { 4, 4 };
 
     auto a = from(vect1)

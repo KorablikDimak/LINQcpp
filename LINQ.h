@@ -4,6 +4,7 @@
 #include <deque>
 #include <list>
 #include <forward_list>
+#include <array>
 #include "algorithm.h"
 
 enum OrderType
@@ -372,6 +373,14 @@ LinqObject<T> from(std::list<T> collection)
 
 template <typename T>
 LinqObject<T> from(std::forward_list<T> collection)
+{
+    std::vector<T> vector(collection.begin(), collection.end());
+    LinqObject linqObject(vector);
+    return linqObject;
+}
+
+template <typename T, std::size_t SIZE>
+LinqObject<T> from(std::array<T, SIZE> collection)
 {
     std::vector<T> vector(collection.begin(), collection.end());
     LinqObject linqObject(vector);
