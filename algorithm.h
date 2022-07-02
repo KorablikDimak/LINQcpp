@@ -293,9 +293,12 @@ namespace algorithm
     }
 
     template <typename T>
-    bool contains(std::vector<T> *collection, const std::size_t collectionSize,
-                  std::vector<T> *subCollection, const std::size_t subCollectionSize)
+    bool contains(std::vector<T> *collection, std::vector<T> *subCollection)
     {
+        size_t collectionSize = (*collection).size();
+        size_t subCollectionSize = (*subCollection).size();
+        if (subCollectionSize > collectionSize) throw std::overflow_error("collectionSize must be more then subCollectionSize");
+
         std::size_t prefixSizeSubCollection[subCollectionSize];
         prefixSizeSubCollection[0] = 0;
 

@@ -1,6 +1,9 @@
 #ifndef LINQCPP_LINQ_H
 #define LINQCPP_LINQ_H
 
+#include <deque>
+#include <list>
+#include <forward_list>
 #include "algorithm.h"
 
 enum OrderType
@@ -15,6 +18,7 @@ class LinqObject
 public:
     LinqObject(std::vector<T> collection)
     {
+        if (collection.empty()) throw std::invalid_argument("collection must not be empty");
         this->collection = collection;
     }
 
@@ -78,6 +82,7 @@ public:
                     std::function<TKey(TOther)> outerKeySelector,
                     std::function<TResult(T,TOther)> resultSelector)
     {
+        if (other.empty()) throw std::invalid_argument("other collection must not be empty");
         std::vector<TResult> result;
 
         auto currentInner = collection.begin();
@@ -134,7 +139,8 @@ public:
 
     bool contains(std::vector<T> subCollection)
     {
-        return algorithm::contains(&collection, collection.size(), &subCollection, subCollection.size());
+        if (subCollection.empty()) return false;
+        return algorithm::contains(&collection, &subCollection);
     }
 
     bool contains(T element)
@@ -156,7 +162,7 @@ public:
 
     T sum()
     {
-        T sum;
+        T sum{};
         auto current = collection.begin();
         do
         {
@@ -169,7 +175,7 @@ public:
     template<typename TResult>
     TResult sum(std::function<TResult(T)> sumFunction)
     {
-        TResult sum;
+        TResult sum{};
         auto current = collection.begin();
         do
         {
@@ -182,7 +188,7 @@ public:
     template<typename TResult>
     TResult aggregate(std::function<TResult(TResult, T)> aggregateFunction)
     {
-        TResult result;
+        TResult result{};
         auto current = collection.begin();
         do
         {
@@ -264,7 +270,77 @@ public:
             current++;
         } while (current != collection.end());
 
-        return min;
+        return max;
+    }
+
+    T average()
+    {
+        T sum{};
+        auto current = collection.begin();
+        do
+        {
+            sum += *current;
+            current++;
+        } while (current != collection.end());
+
+        return sum / collection.size();
+    }
+
+    template<typename TResult>
+    TResult average(std::function<TResult(T)> averageFunction)
+    {
+        TResult sum{};
+        auto current = collection.begin();
+        do
+        {
+            sum += averageFunction(*current);
+            current++;
+        } while (current != collection.end());
+
+        return sum / collection.size();
+    }
+
+    // part of collection
+
+    LinqObject skip(size_t count)
+    {
+        if (count >= collection.size()) throw std::overflow_error("skip count must be less then collection size");
+
+        auto current = collection.begin();
+        for (size_t i = 0; i < count; ++i)
+        {
+            current++;
+        }
+
+        std::vector<T> newCollection;
+        newCollection.reserve(collection.size() - count);
+        do
+        {
+            newCollection.push_back(*current);
+            current++;
+        } while (current != collection.end());
+
+        LinqObject linqObject(newCollection);
+        return linqObject;
+    }
+
+    LinqObject skipLast(size_t count)
+    {
+        if (count >= collection.size()) throw std::overflow_error("skipLast count must be less then collection size");
+
+        auto current = collection.begin();
+        std::vector<T> newCollection;
+        newCollection.reserve(collection.size() - count);
+        size_t i = collection.size() - count;
+        while (i > 0)
+        {
+            newCollection.push_back(*current);
+            current++;
+            --i;
+        }
+
+        LinqObject linqObject(newCollection);
+        return linqObject;
     }
 
 private:
@@ -275,6 +351,30 @@ template <typename T>
 LinqObject<T> from(std::vector<T> collection)
 {
     LinqObject linqObject(collection);
+    return linqObject;
+}
+
+template <typename T>
+LinqObject<T> from(std::deque<T> collection)
+{
+    std::vector<T> vector(collection.begin(), collection.end());
+    LinqObject linqObject(vector);
+    return linqObject;
+}
+
+template <typename T>
+LinqObject<T> from(std::list<T> collection)
+{
+    std::vector<T> vector(collection.begin(), collection.end());
+    LinqObject linqObject(vector);
+    return linqObject;
+}
+
+template <typename T>
+LinqObject<T> from(std::forward_list<T> collection)
+{
+    std::vector<T> vector(collection.begin(), collection.end());
+    LinqObject linqObject(vector);
     return linqObject;
 }
 

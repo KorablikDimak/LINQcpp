@@ -141,8 +141,8 @@ bool containsTest()
     std::vector<short> subCollection1 = { 10, 2, 2, 5 };
     std::vector<short> subCollection2 = { 7, 2, 2, 40 };
 
-    if (contains(&collection, collection.size(), &subCollection1, subCollection1.size()) &&
-    !contains(&collection, collection.size(), &subCollection2, subCollection2.size()))
+    if (contains(&collection, &subCollection1) &&
+    !contains(&collection, &subCollection2))
     {
         return true;
     }
