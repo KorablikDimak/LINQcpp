@@ -2,8 +2,8 @@
 #define LINQCPP_ALGORITHMTESTS_H
 
 #include "algorithm.h"
-#include <vector>
-#include <map>
+
+using namespace algorithm;
 
 bool binarySearchTest();
 bool selectionSortTest();

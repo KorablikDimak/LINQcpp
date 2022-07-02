@@ -69,23 +69,12 @@ bool insertionSortTest()
 
 bool mergeSortTest()
 {
-    short arr1[10] = { 7,3,6,10,2,50,5,21,40,25 };
-    short arrCorrect1[10] = { 2, 3, 5, 6, 7, 10, 21, 25, 40, 50 };
-    mergeSort(arr1, 0, 9);
-    for (short i = 0; i < 10; ++i)
-    {
-        if (arr1[i] != arrCorrect1[i])
-        {
-            return false;
-        }
-    }
-
-    std::vector<short> arr2 = { 6, 3, 18, 9, 12, 23, 10, 33 };
-    std::vector<short> arrCorrect2 = { 3, 6, 9, 10, 12, 18, 23, 33 };
-    mergeSort(arr2.data(), 0, 7);
+    std::vector<short> arr = { 6, 3, 18, 9, 12, 23, 10, 33 };
+    std::vector<short> arrCorrect = { 3, 6, 9, 10, 12, 18, 23, 33 };
+    mergeSort(&arr, 0, 7);
     for (short i = 0; i < 8; ++i)
     {
-        if (arr2[i] != arrCorrect2[i])
+        if (arr[i] != arrCorrect[i])
         {
             return false;
         }
@@ -148,12 +137,12 @@ bool countCommonSubsequenceTest()
 
 bool containsTest()
 {
-    short collection[10] = { 7,6,6,10,2,2,5,6,40,6 };
-    short subCollection1[4] = { 10, 2, 2, 5 };
-    short subCollection2[4] = { 7, 2, 2, 40 };
+    std::vector<short> collection = { 7, 6, 6, 10, 2, 2, 5, 6, 40, 6 };
+    std::vector<short> subCollection1 = { 10, 2, 2, 5 };
+    std::vector<short> subCollection2 = { 7, 2, 2, 40 };
 
-    if (contains(collection, 10, subCollection1, 4) &&
-    !contains(collection, 10, subCollection2, 4))
+    if (contains(&collection, collection.size(), &subCollection1, subCollection1.size()) &&
+    !contains(&collection, collection.size(), &subCollection2, subCollection2.size()))
     {
         return true;
     }
